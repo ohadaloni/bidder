@@ -343,6 +343,11 @@ class Bidder extends Mcontroller {
 	/*------------------------------------------------------------*/
 	private function parseRequest() {
 		$this->bidRequest = json_decode($this->input, true);
+		$this->bidRequestId = @$this->bidRequest['id'];
+		if ( ! $this->bidRequestId ) {
+			$this->error("parseRequest: no id in request", 100);
+			return(false);
+		}
 		$this->bidRequest['exchangeVhost'] = $this->bidderUtils->exchangeVhost();
 		$this->exchangeId = $this->bidRequest['exchangeId'] = $this->bidderUtils->exchangeId();
 
@@ -355,11 +360,6 @@ class Bidder extends Mcontroller {
 		$video = @$this->bidRequest['video'];
 		$banner = @$this->bidRequest['imp'][0]['banner'];
 
-		$this->bidRequestId = @$this->bidRequest['id'];
-		if ( ! $this->bidRequestId ) {
-			$this->error("parseRequest: no id in request", 100);
-			return(false);
-		}
 		$this->w = @$banner['w'];
 		$this->h = @$banner['h'];
 		$code3 = @$this->bidRequest['device']['geo']['country'];
@@ -645,7 +645,7 @@ class Bidder extends Mcontroller {
 	}
 	/*------------------------------------------------------------*/
 	private function forceCampaignId($campaignId) {
-		$this->bidRequestId = @$this->bidRequest['id'];
+		$this->parseRequest(); // sets it in memcache. for click redirect to work
 		$this->campaign = $this->bidderUtils->campaign($campaignId);
 		$this->campaign['bidPrice'] = $this->campaign['baseBid'];
 		$this->bid();
