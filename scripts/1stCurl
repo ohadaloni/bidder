@@ -1,0 +1,4 @@
+curl -v -H "Host: ohad.bidder.theora.com" -d "Ceci N'est pas une Bid Request" 'localhost/this=is&not=a&bid=request'
+curl -v -H "Host: bidder.theora.com" -d "Ceci N'est pas une Bid Request" 'localhost/this=is&not=a&bid=request&rather=its&a=test'
+curl -v -H "Host: pocketmath.bidder.theora.com" -d "Ceci N'est pas une PocketMath Bid Request" 'localhost/this=is&not=a&PocketMath=request&rather=its&a=test'
+
