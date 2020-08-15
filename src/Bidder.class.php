@@ -367,8 +367,8 @@ class Bidder extends Mcontroller {
 		// README - this also filters out all requerst with no banner object, like video
 		if ( ! $this->w || ! $this->h || ! $this->geo ) {
 			$this->error("no w h or geo in request", 100);
-			/*	$printr = print_r($this->bidRequest, true);	*/
-			/*	$this->error($printr, 100);	*/
+			$printr = print_r($this->bidRequest, true);
+			$this->error($printr, 100);
 			return(false);
 		}
 		$placementId = $this->placementId = $this->bidderUtils->placementId($this->bidRequest);
