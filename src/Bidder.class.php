@@ -713,6 +713,7 @@ class Bidder extends Mcontroller {
 		$bidRequestId = $this->bidRequestId;
 		$campaignName = $this->campaign['name'];
 		$this->log("Bidding: $bidRequestId --> $bidId - $price - $campaignName", 1);
+		header("Content-type: application/json");
 		echo $json;
 	}
 	/*------------------------------------------------------------*/
