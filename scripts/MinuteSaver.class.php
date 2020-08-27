@@ -139,7 +139,6 @@ class MinuteSaver extends Mcontroller {
 		$placementIds = array();
 		$qName = $this->keyNames->placementIdsQname();
 		$qLength = $this->Mmemcache->msgQlength($qName);
-		$placementId = $this->Mmemcache->msgQnext($qName);
 		for($i=0;$i<$qLength;$i++) {
 			$placementId = $this->Mmemcache->msgQnext($qName);
 			if ( $placementId ) {
