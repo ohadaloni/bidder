@@ -514,6 +514,12 @@ class Bidder extends Mcontroller {
 		if ( ! $basics )
 			return(false);
 
+		if ( $campaign['weekDays'] ) {
+			$campaignWeekDays = $campaign['weekDays'];
+			$thisDayOfWeek = date("w");
+			if ( ! strstr(",$campaignWeekDays,", ",$thisDayOfWeek,") )
+				return(false);
+		}
 		if ( $campaign['hours'] ) {
 			$campaignHours = $campaign['hours'];
 			$thisHour = date("G");
