@@ -308,7 +308,7 @@ class Bidder extends Mcontroller {
 	}
 	/*------------------------------------------------------------*/
 	private function noBid() {
-	$this->log("noBid", 0.1);
+		$this->log("noBid", 0.1);
 		http_response_code(204);
 	}
 	/*------------------------------------------------------------*/
