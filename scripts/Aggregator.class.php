@@ -760,21 +760,13 @@ class Aggregator extends Mcontroller {
 		}
 	}
 	/*------------------------------------------------------------*/
-	private function insert($table, $row) {
-		if ( $this->isEmpty($row) ) {
-			$this->log("insert: empty row ignored", 20);
-			return;
-		}
-		return($this->Mmodel->dbInsert($table, $row));
-	}
-	/*------------------------------*/
+	/*------------------------------------------------------------*/
 	private function isEmpty($row) {
 		foreach ( $this->ctMentrics as $metric )
 			if ( @$row[$metric] )
 				return(false);
 		return(true);
 	}
-	/*------------------------------------------------------------*/
 	/*------------------------------------------------------------*/
 	/*------------------------------------------------------------*/
 	private function error($msg, $r = 100) {
