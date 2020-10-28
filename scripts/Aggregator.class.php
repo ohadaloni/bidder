@@ -84,6 +84,11 @@ class Aggregator extends Mcontroller {
 			$sql = "select sum($cntMetric) from cntMinute where $conds";
 			$row[$cntMetric] = $this->Mmodel->getString($sql);
 		}
+
+		if ( $this->isEmpty($row) ) {
+			$this->log("cntHour: empty row ignored", 100);
+			return;
+		}
 		$sql = "select * from cntHour where $conds";
 		$dbHourRow = $this->Mmodel->getRow($sql);
 		$json = json_encode($row);
@@ -116,6 +121,10 @@ class Aggregator extends Mcontroller {
 			$sql = "select sum($cntMetric) from cntHour where $conds";
 			$row[$cntMetric] = $this->Mmodel->getString($sql);
 		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("cntDay: empty row ignored", 100);
+			return;
+		}
 
 		$sql = "select * from cntDay where $conds";
 		$dbDayRow = $this->Mmodel->getRow($sql);
@@ -145,6 +154,10 @@ class Aggregator extends Mcontroller {
 			$sql = "select sum($cntMetric) from cntDay where $conds";
 			$row[$cntMetric] = $this->Mmodel->getString($sql);
 		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("cntMonth: empty row ignored", 100);
+			return;
+		}
 
 		$sql = "select * from cntMonth where month = '$month'";
 		$dbMonthRow = $this->Mmodel->getRow($sql);
@@ -173,6 +186,10 @@ class Aggregator extends Mcontroller {
 		foreach ( $this->cntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from cntMonth where $conds";
 			$row[$cntMetric] = $this->Mmodel->getString($sql);
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("cntYear: empty row ignored", 100);
+			return;
 		}
 
 		$sql = "select * from cntYear where year = '$year'";
@@ -245,20 +262,21 @@ class Aggregator extends Mcontroller {
 		$conds = "campaignId = $campaignId and date = '$date' and hour = $hour";
 		$row = array();
 		$row['campaignId'] = $campaignId;
-		$isEmpty = true;
 		foreach ( $this->cCntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from cCntMinute where $conds";
 			$cnt = $this->Mmodel->getString($sql);
-			if ( $cnt ) {
+			if ( $cnt )
 				$row[$cntMetric] = $cnt;
-				$isEmpty = false ;
-			}
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("cCntHour: empty row ignored", 100);
+			return;
 		}
 		$sql = "select * from cCntHour where $conds";
 		$dbHourRow = $this->Mmodel->getRow($sql);
 		if ( $dbHourRow ) {
 			$this->Mmodel->dbUpdate("cCntHour", $dbHourRow['id'], $row);
-		} elseif ( ! $isEmpty ) {
+		} else {
 			$row['date'] = $date;
 			$row['hour'] = $hour;
 			$this->Mmodel->dbInsert("cCntHour", $row);
@@ -282,21 +300,22 @@ class Aggregator extends Mcontroller {
 		$row = array();
 		$row['campaignId'] = $campaignId;
 
-		$isEmpty = true;
 		foreach ( $this->cCntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from cCntHour where $conds";
 			$cnt = $this->Mmodel->getString($sql);
-			if ( $cnt ) {
+			if ( $cnt )
 				$row[$cntMetric] = $cnt;
-				$isEmpty = false ;
-			}
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("cCntDay: empty row ignored", 100);
+			return;
 		}
 
 		$sql = "select * from cCntDay where $conds";
 		$dbDayRow = $this->Mmodel->getRow($sql);
 		if ( $dbDayRow ) {
 			$this->Mmodel->dbUpdate("cCntDay", $dbDayRow['id'], $row);
-		} elseif ( ! $isEmpty ) {
+		} else {
 			$row['date'] = $date;
 			$this->Mmodel->dbInsert("cCntDay", $row);
 		}
@@ -322,6 +341,10 @@ class Aggregator extends Mcontroller {
 		foreach ( $this->cCntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from cCntDay where $conds";
 			$row[$cntMetric] = $this->Mmodel->getString($sql);
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("cCntMonth: empty row ignored", 100);
+			return;
 		}
 
 		$sql = "select * from cCntMonth where campaignId = $campaignId and month = '$month'";
@@ -354,6 +377,10 @@ class Aggregator extends Mcontroller {
 		foreach ( $this->cCntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from cCntMonth where $conds";
 			$row[$cntMetric] = $this->Mmodel->getString($sql);
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("cCntYear: empty row ignored", 100);
+			return;
 		}
 
 		$sql = "select * from cCntYear where campaignId = $campaignId and year = '$year'";
@@ -446,20 +473,21 @@ class Aggregator extends Mcontroller {
 		$conds = "placementId = '$placementId' and date = '$date' and hour = $hour";
 		$row = array();
 		$row['placementId'] = $placementId;
-		$isEmpty = true;
 		foreach ( $this->plCntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from plCntMinute where $conds";
 			$cnt = $this->Mmodel->getString($sql);
-			if ( $cnt ) {
+			if ( $cnt )
 				$row[$cntMetric] = $cnt;
-				$isEmpty = false ;
-			}
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("plCntHour: empty row ignored", 100);
+			return;
 		}
 		$sql = "select * from plCntHour where $conds";
 		$dbHourRow = $this->Mmodel->getRow($sql);
 		if ( $dbHourRow ) {
 			$this->Mmodel->dbUpdate("plCntHour", $dbHourRow['id'], $row);
-		} elseif ( ! $isEmpty ) {
+		} else {
 			$row['date'] = $date;
 			$row['hour'] = $hour;
 			$this->Mmodel->dbInsert("plCntHour", $row);
@@ -483,21 +511,22 @@ class Aggregator extends Mcontroller {
 		$row = array();
 		$row['placementId'] = $placementId;
 
-		$isEmpty = true;
 		foreach ( $this->plCntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from plCntHour where $conds";
 			$cnt = $this->Mmodel->getString($sql);
-			if ( $cnt ) {
+			if ( $cnt )
 				$row[$cntMetric] = $cnt;
-				$isEmpty = false ;
-			}
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("plCntDay: empty row ignored", 100);
+			return;
 		}
 
 		$sql = "select * from plCntDay where $conds";
 		$dbDayRow = $this->Mmodel->getRow($sql);
 		if ( $dbDayRow ) {
 			$this->Mmodel->dbUpdate("plCntDay", $dbDayRow['id'], $row);
-		} elseif ( ! $isEmpty ) {
+		} else {
 			$row['date'] = $date;
 			$this->Mmodel->dbInsert("plCntDay", $row);
 		}
@@ -520,21 +549,22 @@ class Aggregator extends Mcontroller {
 		$row = array();
 		$row['placementId'] = $placementId;
 
-		$isEmpty = true;
 		foreach ( $this->plCntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from plCntDay where $conds";
 			$cnt = $this->Mmodel->getString($sql);
-			if ( $cnt ) {
+			if ( $cnt )
 				$row[$cntMetric] = $cnt;
-				$isEmpty = false ;
-			}
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("plCntMonth: empty row ignored", 100);
+			return;
 		}
 
 		$sql = "select * from plCntMonth where placementId = '$placementId' and month = '$month'";
 		$dbMonthRow = $this->Mmodel->getRow($sql);
 		if ( $dbMonthRow ) {
 			$this->Mmodel->dbUpdate("plCntMonth", $dbMonthRow['id'], $row);
-		} elseif ( ! $isEmpty ) {
+		} else {
 			$row['month'] = $month;
 			$this->Mmodel->dbInsert("plCntMonth", $row);
 		}
@@ -557,21 +587,22 @@ class Aggregator extends Mcontroller {
 		$row = array();
 		$row['placementId'] = $placementId;
 
-		$isEmpty = true;
 		foreach ( $this->plCntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from plCntMonth where $conds";
 			$cnt = $this->Mmodel->getString($sql);
-			if ( $cnt ) {
+			if ( $cnt )
 				$row[$cntMetric] = $cnt;
-				$isEmpty = false ;
-			}
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("plCntYear: empty row ignored", 100);
+			return;
 		}
 
 		$sql = "select * from plCntYear where placementId = '$placementId' and year = '$year'";
 		$dbYearRow = $this->Mmodel->getRow($sql);
 		if ( $dbYearRow ) {
 			$this->Mmodel->dbUpdate("plCntYear", $dbYearRow['id'], $row);
-		} elseif ( ! $isEmpty ) {
+		} else {
 			$row['year'] = $year;
 			$this->Mmodel->dbInsert("plCntYear", $row);
 		}
@@ -639,6 +670,10 @@ class Aggregator extends Mcontroller {
 			$sql = "select sum($cntMetric) from exCntMinute where $conds";
 			$row[$cntMetric] = $this->Mmodel->getString($sql);
 		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("exCntHour: empty row ignored", 100);
+			return;
+		}
 		$sql = "select * from exCntHour where $conds";
 		$dbHourRow = $this->Mmodel->getRow($sql);
 		if ( $dbHourRow ) {
@@ -669,6 +704,10 @@ class Aggregator extends Mcontroller {
 		foreach ( $this->exCntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from exCntHour where $conds";
 			$row[$cntMetric] = $this->Mmodel->getString($sql);
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("exCntDay: empty row ignored", 100);
+			return;
 		}
 
 		$sql = "select * from exCntDay where $conds";
@@ -701,6 +740,10 @@ class Aggregator extends Mcontroller {
 			$sql = "select sum($cntMetric) from exCntDay where $conds";
 			$row[$cntMetric] = $this->Mmodel->getString($sql);
 		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("exCntMonth: empty row ignored", 100);
+			return;
+		}
 
 		$sql = "select * from exCntMonth where exchangeId = $exchangeId and month = '$month'";
 		$dbMonthRow = $this->Mmodel->getRow($sql);
@@ -731,6 +774,10 @@ class Aggregator extends Mcontroller {
 		foreach ( $this->exCntMetrics as $cntMetric ) {
 			$sql = "select sum($cntMetric) from exCntMonth where $conds";
 			$row[$cntMetric] = $this->Mmodel->getString($sql);
+		}
+		if ( $this->isEmpty($row) ) {
+			$this->log("exCntYear: empty row ignored", 100);
+			return;
 		}
 
 		$sql = "select * from exCntYear where exchangeId = $exchangeId and year = '$year'";
