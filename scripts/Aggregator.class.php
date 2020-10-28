@@ -809,7 +809,7 @@ class Aggregator extends Mcontroller {
 	/*------------------------------------------------------------*/
 	/*------------------------------------------------------------*/
 	private function isEmpty($row) {
-		foreach ( $this->ctMentrics as $metric )
+		foreach ( $this->cntMetrics as $metric )
 			if ( @$row[$metric] )
 				return(false);
 		return(true);
