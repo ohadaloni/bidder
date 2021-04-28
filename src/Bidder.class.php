@@ -79,6 +79,24 @@ class Bidder extends Mcontroller {
 		$this->logTime("bid", $startTime, 4);
 	}
 	/*------------------------------------------------------------*/
+	private function filters() {
+		$filters = array(
+			'parseRequest', // also placementId & exchangeId, which are used by:
+			'countRequest', // count the request. also per placement & exchange
+			'onOff', // the bidder might be off, as dictated by the control panel UI
+			'throttle', // quick pacer, last minute budget cap
+			'bidderBlack', // is the request's domain globally black listed
+			'bidderPacer', // daily and hourly pacers
+			'match', // select a matching list of campaigns
+			'campaignsPacer', // and drop those currently overbudget
+			'setPrices', // for those left, set a price for each
+			'selectCampaign', // internal auction the select the highest bidding campaign
+		);
+		return($filters);
+	}
+	/*------------------------------------------------------------*/
+	/*------------------------------------------------------------*/
+	/*------------------------------------------------------------*/
 	private function others($bidId) {
 		$this->bidId = $bidId;
 		$this->bid = $this->memUtils->bid($bidId);
@@ -295,31 +313,6 @@ class Bidder extends Mcontroller {
 	private function noBid() {
 		$this->log("noBid", 0.1);
 		http_response_code(204);
-	}
-	/*------------------------------------------------------------*/
-	private function filters() {
-		// countRequest keeps counts for placements and exchanges
-		// even if the bidder is off or unthrottled.
-		// so parseRequest comes first, then countRequest,
-		// only then onOff & throttle
-		// throttle needs countRequest
-		// is this ok for performance?:
-		//		otherwise, split count filters to just count the requests
-		//		and only after throttle parse the request, and count placement & exchange
-		//		loosing count from those when bidder is off/un-throttled
-		$filters = array(
-			'parseRequest',
-			'countRequest',
-			'onOff',
-			'throttle',
-			'bidderBlack',
-			'bidderPacer',
-			'match',
-			'campaignsPacer',
-			'setPrices',
-			'selectCampaign',
-		);
-		return($filters);
 	}
 	/*------------------------------------------------------------*/
 	private function parseRequest() {
