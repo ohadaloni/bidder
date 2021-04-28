@@ -49,19 +49,23 @@ class Bidder extends Mcontroller {
 		$this->memUtils = new MemUtils($logFile);
 		$this->campaigns = $this->pacedCampaigns = array();
 
-		// this is where it starts
+		// thing other then a bid request
 		$bidId = @$_REQUEST['bidId'];
 		if ( $bidId ) {
 			$this->others($bidId);
 			return;
 		}
+
 		$this->input = file_get_contents("php://input");
+
+		// for debugging, a campaign can be forced to bid
 		$forceCampaignId = @$_REQUEST['forceCampaignId'];
 		if ( $forceCampaignId ) {
 			$this->parseRequest();
 			$this->forceCampaignId($forceCampaignId);
 			return;
 		}
+		// a regular bid request 
 		$filters = $this->filters();
 
 		foreach ( $filters as $func ) {
@@ -106,34 +110,6 @@ class Bidder extends Mcontroller {
 	}
 	/*------------------------------------------------------------*/
 	/*------------------------------------------------------------*/
-	/*------------------------------------------------------------*/
-	private function logTime($label, $startTime, $r) {
-		if ( rand(1, 100 * 1000) > $r * 1000 )
-				return;
-		$endTime = microtime(true);
-		$secondsElapsed = $endTime - $startTime;
-		$millisecondsElapsed = round($secondsElapsed * 1000, 2);
-		$this->log("$label: $r/100: $millisecondsElapsed milliseconds");
-	}
-	/*------------------------------------------------------------*/
-	private function campaignId($bidId) {
-		$bid = $this->memUtils->bid($bidId);
-		if ( ! $bid ) {
-			$this->error("campaignId: $bidId: cannot find bid $bidId in memcache", 5);
-			return(null);
-		}
-		$bid0 = @$bid['seatbid'][0]['bid'];
-		if ( ! $bid0 ) {
-			$this->error("campaignId: $bidId: cannot find bid0 in bid", 10);
-			return(null);
-		}
-		$campaignId = @$bid0['cid'];
-		if ( ! $campaignId ) {
-			$this->error("campaignId: $bidId: cannot find cid in bid0", 10);
-			return(null);
-		}
-		return($campaignId);
-	}
 	/*------------------------------------------------------------*/
 	private function win($bidId) {
 		$cost = @$_REQUEST['cost'];
@@ -201,7 +177,6 @@ class Bidder extends Mcontroller {
 		$this->Mmemcache->msgQadd($placementIdsQname, $this->placementId);
 	}
 	/*------------------------------------------------------------*/
-	// README  - the view rate for placements identifies fraud placements
 	private function view($bidId) {
 		$campaignId = $this->campaignId($bidId);
 		if ( ! $campaignId ) {
@@ -389,6 +364,35 @@ class Bidder extends Mcontroller {
 		$this->Mmemcache->set($mkey, $this->bidRequest, 300);
 
 		return(true);
+	}
+	/*------------------------------------------------------------*/
+	/*------------------------------------------------------------*/
+	private function logTime($label, $startTime, $r) {
+		if ( rand(1, 100 * 1000) > $r * 1000 )
+				return;
+		$endTime = microtime(true);
+		$secondsElapsed = $endTime - $startTime;
+		$millisecondsElapsed = round($secondsElapsed * 1000, 2);
+		$this->log("$label: $r/100: $millisecondsElapsed milliseconds");
+	}
+	/*------------------------------------------------------------*/
+	private function campaignId($bidId) {
+		$bid = $this->memUtils->bid($bidId);
+		if ( ! $bid ) {
+			$this->error("campaignId: $bidId: cannot find bid $bidId in memcache", 5);
+			return(null);
+		}
+		$bid0 = @$bid['seatbid'][0]['bid'];
+		if ( ! $bid0 ) {
+			$this->error("campaignId: $bidId: cannot find bid0 in bid", 10);
+			return(null);
+		}
+		$campaignId = @$bid0['cid'];
+		if ( ! $campaignId ) {
+			$this->error("campaignId: $bidId: cannot find cid in bid0", 10);
+			return(null);
+		}
+		return($campaignId);
 	}
 	/*------------------------------------------------------------*/
 	private function countRequest() {
