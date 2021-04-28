@@ -36,6 +36,7 @@ class Bidder extends Mcontroller {
 	private $bid; // which is cached, to be gotten when called for
 	/*------------------------------------------------------------*/
 	public function index() {
+		// init
 		$startTime = microtime(true);
 		$this->Mmemcache = new Mmemcache;
 		$this->keyNames = new KeyNames;
@@ -48,6 +49,7 @@ class Bidder extends Mcontroller {
 		$this->memUtils = new MemUtils($logFile);
 		$this->campaigns = $this->pacedCampaigns = array();
 
+		// this is where it starts
 		$bidId = @$_REQUEST['bidId'];
 		if ( $bidId ) {
 			$this->others($bidId);
@@ -71,15 +73,6 @@ class Bidder extends Mcontroller {
 		}
 		$this->bid();
 		$this->logTime("bid", $startTime, 4);
-	}
-	/*------------------------------*/
-	private function logTime($label, $startTime, $r) {
-		if ( rand(1, 100 * 1000) > $r * 1000 )
-				return;
-		$endTime = microtime(true);
-		$secondsElapsed = $endTime - $startTime;
-		$millisecondsElapsed = round($secondsElapsed * 1000, 2);
-		$this->log("$label: $r/100: $millisecondsElapsed milliseconds");
 	}
 	/*------------------------------------------------------------*/
 	private function others($bidId) {
@@ -110,6 +103,17 @@ class Bidder extends Mcontroller {
 			$this->cpa($bidId);
 		else
 			$this->error("others:$bidId: pathInfo=$pathInfo not understood", 10);
+	}
+	/*------------------------------------------------------------*/
+	/*------------------------------------------------------------*/
+	/*------------------------------------------------------------*/
+	private function logTime($label, $startTime, $r) {
+		if ( rand(1, 100 * 1000) > $r * 1000 )
+				return;
+		$endTime = microtime(true);
+		$secondsElapsed = $endTime - $startTime;
+		$millisecondsElapsed = round($secondsElapsed * 1000, 2);
+		$this->log("$label: $r/100: $millisecondsElapsed milliseconds");
 	}
 	/*------------------------------------------------------------*/
 	private function campaignId($bidId) {
