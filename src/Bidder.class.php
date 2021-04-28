@@ -322,10 +322,6 @@ class Bidder extends Mcontroller {
 		return($filters);
 	}
 	/*------------------------------------------------------------*/
-	private function bidderBlack() {
-		return( ! $this->campaignBlack(0, $this->domain));
-	}
-	/*------------------------------------------------------------*/
 	private function parseRequest() {
 		$this->bidRequest = json_decode($this->input, true);
 		$this->bidRequestId = @$this->bidRequest['id'];
@@ -491,6 +487,7 @@ class Bidder extends Mcontroller {
 	/*------------------------------------------------------------*/
 	// campaignBlack() is true if its blacklisted for $domain
 	// campaignWhite() is true if the $domain is ok for this campaign
+	// a campaign=0 is global for the bidder
 	/*------------------------------*/
 	private function campaignWhite($campaignId, $domain) {
 		$whiteListsDomains = $this->bidderUtils->whiteListsDomains($campaignId);
@@ -513,6 +510,11 @@ class Bidder extends Mcontroller {
 		}
 		return(false);
 	}
+	/*------------------------------*/
+	private function bidderBlack() {
+		return( ! $this->campaignBlack(0, $this->domain));
+	}
+	/*------------------------------------------------------------*/
 	/*------------------------------------------------------------*/
 	private function campaignMatches($campaign) {
 		$kind = $this->bidRequestKind;
