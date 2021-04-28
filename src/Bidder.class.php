@@ -67,7 +67,6 @@ class Bidder extends Mcontroller {
 		}
 		// a regular bid request 
 		$filters = $this->filters();
-
 		foreach ( $filters as $func ) {
 			if ( ! $this->$func() ) {
 				$this->noBid();
@@ -79,6 +78,8 @@ class Bidder extends Mcontroller {
 		$this->logTime("bid", $startTime, 4);
 	}
 	/*------------------------------------------------------------*/
+	// the processing sequence to reach a valid bid
+	// a false return value stops processing immediately with a noBid response
 	private function filters() {
 		$filters = array(
 			'parseRequest', // also placementId & exchangeId, which are used by:
