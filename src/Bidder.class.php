@@ -97,7 +97,7 @@ class Bidder extends Mcontroller {
 	}
 	/*------------------------------------------------------------*/
 	/*------------------------------------------------------------*/
-	/*------------------------------------------------------------*/
+	// process requests that are not a regular bidRequest
 	private function others($bidId) {
 		$this->bidId = $bidId;
 		$this->bid = $this->memUtils->bid($bidId);
