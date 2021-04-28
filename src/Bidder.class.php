@@ -171,12 +171,6 @@ class Bidder extends Mcontroller {
 		$this->Mmemcache->msgQadd($winQname, $row);
 	}
 	/*------------------------------------------------------------*/
-	private function qPlacement() {
-		$placementIdsQname = $this->keyNames->placementIdsQname();
-		$this->log("qPlacement: ".$this->placementId, 1);
-		$this->Mmemcache->msgQadd($placementIdsQname, $this->placementId);
-	}
-	/*------------------------------------------------------------*/
 	private function view($bidId) {
 		$campaignId = $this->campaignId($bidId);
 		if ( ! $campaignId ) {
@@ -289,6 +283,13 @@ class Bidder extends Mcontroller {
 		$json = json_encode($row);
 		$this->log("revenue: $json", 1);
 		$this->Mmemcache->msgQadd($revenueQname, $row);
+	}
+	/*------------------------------------------------------------*/
+	// Queue the placement of this bid, for the optimizer crons to process
+	private function qPlacement() {
+		$placementIdsQname = $this->keyNames->placementIdsQname();
+		$this->log("qPlacement: ".$this->placementId, 1);
+		$this->Mmemcache->msgQadd($placementIdsQname, $this->placementId);
 	}
 	/*------------------------------------------------------------*/
 	private function noBid() {
