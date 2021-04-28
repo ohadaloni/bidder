@@ -1,19 +1,26 @@
 <?php
 /*------------------------------------------------------------*/
 class Bidder extends Mcontroller {
+	/*------------------------------------------------------------*
+	a bidder endpoint
+	resond to a single request, win, or tracking pixel
 	/*------------------------------------------------------------*/
+	// some utilities
 	private $Mmemcache;
 	private $bidderUtils;
 	private $memUtils;
 	private $keyNames;
-	/*------------------------------*/
 	private $logger;
 	/*------------------------------*/
+	// the control panel tells if the bidder is on, and what its daily budget is
+	// as set in the bidder UI
+	private $controlPanel;
+	/*------------------------------*/
+	// the request
+	private $input;
 	private $bidRequest;
 	private $bidRequestId;
 	private $placementId;
-	/*------------------------------*/
-	private $input;
 	private $bidRequestKind;
 	private $bidRequestName;
 	private $w;
@@ -21,14 +28,12 @@ class Bidder extends Mcontroller {
 	private $geo;
 	private $domain;
 	/*------------------------------------------------------------*/
-	private $campaigns;
-	private $pacedCampaigns;
-	private $campaign;
-	private $controlPanel;
+	private $campaigns; // a selected list of matching campaigns
+	private $pacedCampaigns; // which are currently ready for the next bid
+	private $campaign; // of which there is one winning internal auction
 	/*------------------------------*/
-	// others() only 
-	private $bidId;
-	private $bid;
+	private $bidId; // wins and tracking pixels carry a bidId
+	private $bid; // which is cached, to be gotten when called for
 	/*------------------------------------------------------------*/
 	public function index() {
 		$startTime = microtime(true);
