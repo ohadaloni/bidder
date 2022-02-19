@@ -20,7 +20,7 @@ class Gc extends Mcontroller {
 		$this->log("$pid: starting...");
 		$keepMonths = 3; // inhibit detailed minute reports b4 this date
 		$ago = date("Y-m-01", time() - $keepMonths * 30 * 24 * 3600);
-		$perRun = 10000;
+		$perRun = 30000;
 		$tables = array(
 			'cntMinute',
 			'cCntMinute',
