@@ -16,9 +16,11 @@ class Gc extends Mcontroller {
 	/*------------------------------------------------------------*/
 	/*------------------------------------------------------------*/
 	public function index() {
+		$pid = getmypid();
+		$this->log("$pid: starting...");
 		$keepMonths = 3; // inhibit detailed minute reports b4 this date
 		$ago = date("Y-m-01", time() - $keepMonths * 30 * 24 * 3600);
-		$perRun = 1000;
+		$perRun = 100;
 		$tables = array(
 			'cntMinute',
 			'cCntMinute',
@@ -30,12 +32,15 @@ class Gc extends Mcontroller {
 			$minDateB4 = $this->Mmodel->getString($sql);
 			$done = strcmp($ago, $minDateB4) <= 0 ;
 			if (  $done ) {
-				$this->log("$table: minDate $minDateB4, done");
+				$this->log("$pid: $table: minDate $minDateB4, done");
 			} else {
+				$start = time();
 				$delSql = "delete from $table where date < '$ago' order by id limit $perRun";
 				$this->Mmodel->sql($delSql);
+				$end = time();
+				$elapsed = $end - $start;
 				$minDateAfter = $this->Mmodel->getString($sql);
-				$this->log("$table: minDate was: $minDateB4, now = $minDateAfter");
+				$this->log("$pid: $table: deleted $perRun rows in $elapsed seconds. minDate was: $minDateB4, now = $minDateAfter");
 			}
 		}
 
