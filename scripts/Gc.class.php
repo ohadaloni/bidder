@@ -40,7 +40,7 @@ class Gc extends Mcontroller {
 				$end = time();
 				$elapsed = $end - $start;
 				$minDateAfter = $this->Mmodel->getString($sql);
-				$this->log("$pid: $table: deleted $perRun rows in $elapsed seconds. minDate was: $minDateB4, now = $minDateAfter");
+				$this->log("$pid: $table: deleted $perRun rows in $elapsed seconds. minDate was: $minDateB4, now: $minDateAfter");
 			}
 		}
 
