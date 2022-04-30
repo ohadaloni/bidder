@@ -4,7 +4,6 @@ class WinsCollector extends Mcontroller {
 	private $bidderUtils;
 	private $memUtils;
 	private $keyNames;
-	private $Mmemcache;
 	/*------------------------------------------------------------*/
 	public function __construct() {
 		parent::__construct();
@@ -17,7 +16,6 @@ class WinsCollector extends Mcontroller {
 		$this->bidderUtils = new BidderUtils($logFile);
 		$this->memUtils = new MemUtils($logFile);
 		$this->keyNames = new KeyNames;
-		$this->Mmemcache = new Mmemcache;
 	}
 	/*------------------------------------------------------------*/
 	/*------------------------------------------------------------*/
