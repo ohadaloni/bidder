@@ -6,7 +6,6 @@ class Bidder extends Mcontroller {
 	resond to a single request, win, or tracking pixel
 	/*------------------------------------------------------------*/
 	// some utilities
-	private $Mmemcache;
 	private $bidderUtils;
 	private $memUtils;
 	private $keyNames;
@@ -38,7 +37,6 @@ class Bidder extends Mcontroller {
 	public function index() {
 		// init
 		$startTime = microtime(true);
-		$this->Mmemcache = new Mmemcache;
 		$this->keyNames = new KeyNames;
 		$logsDir = "/var/www/vhosts/bidder.theora.com/logs/bidder";
 		$today = date("Y-m-d");
