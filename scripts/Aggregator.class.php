@@ -16,7 +16,6 @@ class Aggregator extends Mcontroller {
 	private $bidderUtils;
 	private $memUtils;
 	private $keyNames;
-	private $Mmemcache;
 	private $cntMetrics;
 	private $cCntMetrics;
 	private $plCntMetrics;
@@ -34,7 +33,6 @@ class Aggregator extends Mcontroller {
 		$this->bidderUtils = new BidderUtils($logFile);
 		$this->memUtils = new MemUtils($logFile);
 		$this->keyNames = new KeyNames;
-		$this->Mmemcache = new Mmemcache;
 		$this->exCntMetrics = $this->plCntMetrics = $this->cntMetrics = $this->bidderUtils->cntMetrics();
 		$this->cCntMetrics = $this->bidderUtils->cntMetrics(false);
 	}
