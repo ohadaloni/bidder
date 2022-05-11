@@ -30,7 +30,7 @@ class MinuteSaver extends Mcontroller {
 	}
 	/*------------------------------------------------------------*/
 	public function bidder() {
-		$time = time() - 60 ;
+		$time = time() - 60;
 		$date = date("Y-m-d", $time);
 		$hour = date("H", $time);
 		$minute = date("i", $time);
@@ -49,7 +49,7 @@ class MinuteSaver extends Mcontroller {
 				if ( in_array($cntMetric, $floatMetrics) )
 					$value = $this->memUtils->memInt2double($value);
 				$row[$cntMetric] = $value;
-				$allZeros = false ;
+				$allZeros = false;
 			}
 		}
 		if ( $allZeros ) {
@@ -88,7 +88,7 @@ class MinuteSaver extends Mcontroller {
 	}
 	/*------------------------------*/
 	public function campaign($campaignId) {
-		$time = time() - 60 ;
+		$time = time() - 60;
 		$date = date("Y-m-d", $time);
 		$hour = date("H", $time);
 		$minute = date("i", $time);
@@ -153,7 +153,7 @@ class MinuteSaver extends Mcontroller {
 	/*------------------------------*/
 	public function placement($placementId) {
 		$this->log("placement:$placementId", 1);
-		$time = time() - 60 ;
+		$time = time() - 60;
 		$date = date("Y-m-d", $time);
 		$hour = date("H", $time);
 		$minute = date("i", $time);
@@ -206,7 +206,7 @@ class MinuteSaver extends Mcontroller {
 	/*------------------------------*/
 	public function exchange($exchangeId) {
 		$this->log("exchange:$exchangeId", 1);
-		$time = time() - 60 ;
+		$time = time() - 60;
 		$date = date("Y-m-d", $time);
 		$hour = date("H", $time);
 		$minute = date("i", $time);
