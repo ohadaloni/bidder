@@ -18,7 +18,7 @@ class BidderUtils extends Mcontroller {
 	}
 	/*------------------------------------------------------------*/
 	public function controlPanel($noCache = false) {
-		$controlPanelTtl = $noCache ? null :  15;
+		$controlPanelTtl = $noCache ? null : 15;
 		$sql = "select * from controlPanel order by id desc limit 1";
 		$controlPanel = $this->Mmodel->getRow($sql, $controlPanelTtl);
 		return($controlPanel);
@@ -31,7 +31,7 @@ class BidderUtils extends Mcontroller {
 	/*------------------------------*/
 	public function placements() {
 		$agoDays = PLACEMENT_OPT_WINDOW;
-		$minWins = PLACEMENT_MIN_WINS ;
+		$minWins = PLACEMENT_MIN_WINS;
 		$fields = array(
 			"placementId",
 			"sum(bids) as bids",
@@ -223,7 +223,7 @@ class BidderUtils extends Mcontroller {
 	/*------------------------------------------------------------*/
 	public function exchangeVhosts() {
 		$exchanges = $this->exchanges();
-		$exchangeVhosts =  Mutils::arrayColumn($exchanges, "vhost");
+		$exchangeVhosts = Mutils::arrayColumn($exchanges, "vhost");
 		return($exchangeVhosts);
 	}
 	/*------------------------------------------------------------*/
@@ -231,13 +231,13 @@ class BidderUtils extends Mcontroller {
 		$dirParts = explode("/", __DIR__);
 		$numParts = count($dirParts);
 		$vhostFolderName = $dirParts[$numParts-2];
-		$parts = explode(".",  $vhostFolderName);
+		$parts = explode(".", $vhostFolderName);
 		$exchangeVhost = $parts[0];
 		return($exchangeVhost);
 	}
 	/*------------------------------------------------------------*/
 	public function rate($part, $whole) {
-		$rate = $whole ? 100.0 * $part / $whole  : 0.0;
+		$rate = $whole ? 100.0 * $part / $whole : 0.0;
 		return($rate);
 	}
 	/*------------------------------------------------------------*/
@@ -425,7 +425,6 @@ class BidderUtils extends Mcontroller {
 		return($name);
 	}
 	/*------------------------------------------------------------*/
-	// Tue Mar  3 14:18:49 IST 2020
 	// 0 campaignId means bidder==global
 	// ttl is hardwired to each code so performance can be controlled separately
 	// whitelists are small, and are more like comapgin config (300)
