@@ -30,8 +30,8 @@ class Gc extends Mcontroller {
 		foreach ( $tables as $table ) {
 			$sql = "select min(date) from $table";
 			$minDateB4 = $this->Mmodel->getString($sql);
-			$done = strcmp($ago, $minDateB4) <= 0 ;
-			if (  $done ) {
+			$done = strcmp($ago, $minDateB4) <= 0;
+			if ( $done ) {
 				$this->log("$pid: $table: minDate $minDateB4, done");
 			} else {
 				$start = time();
