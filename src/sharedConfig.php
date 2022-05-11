@@ -9,7 +9,7 @@ define('M_MEMCACHE_HOST', 'mem1');
 /*------------------------------------------------------------*/
 // optimize placements only for the last this many days 
 define('PLACEMENT_OPT_WINDOW', 14);
-// minimum wins in the last  PLACEMENT_OPT_WINDOW to trust this placement
+// minimum wins in the last PLACEMENT_OPT_WINDOW to trust this placement
 define('PLACEMENT_MIN_WINS', 7);
 /*------------------------------------------------------------*/
 define('BANNER_DIR', '/var/www/vhosts/bidder.theora.com/banners');
