@@ -410,7 +410,7 @@ class Bidder extends Mcontroller {
 			// first second of the minute
 			return($cnt < $maxQps);
 		}
-		$qps = $cnt / $elapsed ;
+		$qps = $cnt / $elapsed;
 		$isOK = $qps < $maxQps;
 		if ( ! $isOK )
 			$this->log("throttle: tossing traffic over $maxQps QPS", 3);
@@ -418,7 +418,7 @@ class Bidder extends Mcontroller {
 	}
 	/*------------------------------------------------------------*/
 	private function bidderHourPacer($hourlyBudget) {
-		$secondsSoFar = time() % 3600 ;
+		$secondsSoFar = time() % 3600;
 		if ( ! $secondsSoFar ) {
 			$this->log("bidderHourPacer: 1st second of the hour", 3);
 			return(true);
@@ -430,7 +430,7 @@ class Bidder extends Mcontroller {
 			return(true);
 		}
 		
-		$hourPart = $secondsSoFar / 3600 ;
+		$hourPart = $secondsSoFar / 3600;
 		$budgetSoFar = $hourlyBudget * $hourPart;
 		$ok = $spentSoFar < $budgetSoFar;
 		$this->log("bidderHourPacer: $spentSoFar/$budgetSoFar", 1);
@@ -439,7 +439,7 @@ class Bidder extends Mcontroller {
 	/*------------------------------*/
 	private function bidderPacer() {
 		$dailyBudget = $this->bidderUtils->dailyBudget();
-		$secondsSoFar = time() % 86400 ;
+		$secondsSoFar = time() % 86400;
 		if ( ! $secondsSoFar ) {
 			$this->log("bidderPacer: 1st second of the day", 3);
 			return(true);
@@ -451,7 +451,7 @@ class Bidder extends Mcontroller {
 			return(true);
 		}
 		
-		$dayPart = $secondsSoFar / 86400 ;
+		$dayPart = $secondsSoFar / 86400;
 		$budgetSoFar = $dailyBudget * $dayPart;
 		$ok = $spentSoFar < $budgetSoFar;
 		$this->log("bidderPacer: $spentSoFar/$budgetSoFar", 1);
@@ -518,7 +518,7 @@ class Bidder extends Mcontroller {
 		$cgeo = $campaign['geo'];
 		$ckind = $campaign['kind'];
 
-		$basics = $kind == $ckind && $w == $cw && $h == $ch && $geo == $cgeo ;
+		$basics = $kind == $ckind && $w == $cw && $h == $ch && $geo == $cgeo;
 		if ( ! $basics )
 			return(false);
 
@@ -536,7 +536,7 @@ class Bidder extends Mcontroller {
 		}
 		// there are no fields appName & siteName at this time
 		/*	if ( @$campaign['appName'] || @$campaign['siteName'] ) {	*/
-			/*	$name = $this->bidRequestName ;	*/
+			/*	$name = $this->bidRequestName;	*/
 			/*	$ok = $name &&	*/
 				/*	( $name == @$campaign['appName']	*/
 					/*	|| $name == @$campaign['siteName'] );	*/
@@ -555,7 +555,7 @@ class Bidder extends Mcontroller {
 	/*------------------------------------------------------------*/
 	private function campaignHourPacer($campaign, $hourlyBudget) {
 		$campaignId = $campaign['id'];
-		$secondsSoFar = time() % 3600 ;
+		$secondsSoFar = time() % 3600;
 		if ( ! $secondsSoFar ) {
 			$this->log("campaignHourPacer:$campaignId: 1st second of the hour", 3);
 			return(true);
@@ -567,7 +567,7 @@ class Bidder extends Mcontroller {
 			return(true);
 		}
 		
-		$hourPart = $secondsSoFar / 3600 ;
+		$hourPart = $secondsSoFar / 3600;
 		$budgetSoFar = $hourlyBudget * $hourPart;
 		$ok = $spentSoFar < $budgetSoFar;
 		$this->log("campaignHourPacer:$campaignId: $spentSoFar/$budgetSoFar", 4);
@@ -578,7 +578,7 @@ class Bidder extends Mcontroller {
 		$dailyBudget = $campaign['dailyBudget'];
 		$campaignId = $campaign['id'];
 
-		$secondsSoFar = time() % 86400 ;
+		$secondsSoFar = time() % 86400;
 		if ( ! $secondsSoFar ) {
 			$this->log("campaignPacer:$campaignId: 1st second of the day", 3);
 			return(true);
@@ -590,7 +590,7 @@ class Bidder extends Mcontroller {
 			return(true);
 		}
 		
-		$dayPart = $secondsSoFar / 86400 ;
+		$dayPart = $secondsSoFar / 86400;
 		$budgetSoFar = $dailyBudget * $dayPart;
 		$ok = $spentSoFar < $budgetSoFar;
 		$this->log("campaignPacer:$campaignId: $spentSoFar/$budgetSoFar", 4);
@@ -649,8 +649,8 @@ class Bidder extends Mcontroller {
 					return(false); // this placemnt is bad, deny it altogether.
 				$maxBid = $campaign['maxBid'];
 				$desiredProfitMargin = $campaign['desiredProfitMargin'];
-				$plBidPrice = $placementPpm / ( 1 + $desiredProfitMargin / 100 ) ;
-				$bidPrice = $plBidPrice > $maxBid ? $maxBid : $plBidPrice ;
+				$plBidPrice = $placementPpm / ( 1 + $desiredProfitMargin / 100 );
+				$bidPrice = $plBidPrice > $maxBid ? $maxBid : $plBidPrice;
 				$this->pacedCampaigns[$key]['bidPrice'] = $bidPrice;
 				$this->log("setPrices: setting $bidPrice for $placementId", 10);
 			}
@@ -695,7 +695,6 @@ class Bidder extends Mcontroller {
 						'impid' => 1,
 						'iurl' => $iurl,
 						'cid' => $cid,
-						// Sun Aug  2 04:15:17 IDT 2020
 						// with forceCampaignId, this->w,h are not set
 						'w' => $this->campaign['w'],
 						'h' => $this->campaign['h'],
@@ -756,7 +755,7 @@ class Bidder extends Mcontroller {
 		} else {
 			$campaignId = $this->campaign['id'];
 			$campaignName = $this->campaign['name'];
-			$this->error("adm: No banner nor adm in campaign:  $campaignId:$campaignName", 100);
+			$this->error("adm: No banner nor adm in campaign: $campaignId:$campaignName", 100);
 			return(null);
 		}
 		$adm = "$viewPixel$inner";
