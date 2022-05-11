@@ -29,9 +29,9 @@ class WinsCollector extends Mcontroller {
 		}
 		$rows = array();
 		/*	$this->log("index: qLength=$qLength");	*/
-		$bulkSize = floor($qLength / 2 ) ;
+		$bulkSize = floor($qLength / 2 );
 		if ( $bulkSize > $maxBulk )
-			$bulkSize = $maxBulk ;
+			$bulkSize = $maxBulk;
 		if ( ! $bulkSize )
 			$bulkSize = $qLength;
 		for($i=0;$i<$bulkSize;$i++)
