@@ -4,7 +4,6 @@ RewriteEngine on
 RewriteRule ^src/index.php - [L,NC]
 RewriteRule ^images/ - [L,NC]
 RewriteRule ^banners/ - [L,NC]
-RewriteRule ^tmp/ - [L,NC]
 RewriteRule ^favicon.ico - [L,NC]
 RewriteRule ^js/ - [L,NC]
 RewriteRule ^css/ - [L,NC]
